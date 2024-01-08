@@ -2,31 +2,36 @@ package ru.vano.springstart.model;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 
 @Entity
-public class author {
+@Table(name = "author")
+public class Author {
 	@Id
 	@Column(name = "author_id")
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	//@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
-	@OneToMany(mappedBy = "fk_author_id")
-    private List<book> books;
+	@OneToMany(mappedBy = "author", fetch=FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<Book> books;
 
 	
-	@Column
-	String full_name;
+	@Column(name = "full_name")
+	private String full_name;
 	
-	public author() {}
+	public Author() {}
 	
-	public author(String full_name) {
+	public Author(int id, String full_name) {
+		this.id = id;
 		this.full_name = full_name;
 	}
 
@@ -49,6 +54,14 @@ public class author {
 
 	public void setFull_name(String full_name) {
 		this.full_name = full_name;
+	}
+	
+	public List<Book> getBooks(){
+		return books;
+	}
+	
+	public void setBooks(List<Book> books){
+		this.books = books;
 	}
 	
 	

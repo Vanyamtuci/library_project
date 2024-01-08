@@ -1,4 +1,5 @@
 package ru.vano.springstart.model;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,39 +13,40 @@ import javax.persistence.MapsId;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.ForeignKey;
+import ru.vano.springstart.model.Author;
 
 
 @Entity
 @Table(name = "book")
-public class book {
+public class Book {
 	@Id
-	@Column 
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "book_id")
+	//@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int book_id;
 	
-	@Column
+	@Column(name= "title")
 	private String title;
 	
-	@Column
+	@Column(name = "isbn")
 	private String isbn;
 	
-	@ManyToOne()
+	@ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "author_id", referencedColumnName = "author_id", nullable = false)
-    private author fk_author_id;
+    private Author author;
 	
 	
-	public book() {}
+	public Book() {}
 	
-	public book(String title, String isbn, author fk_author_id) {
+	public Book(int book_id, String title, String isbn) {
+		this.book_id = book_id;
 		this.title = title;
 		this.isbn = isbn;
-		this.fk_author_id = fk_author_id;
 		
 	}
 
 	@Override
 	public String toString() {
-		return "book [book_id=" + book_id + ", title=" + title + ", isbn=" + isbn + ", author_id=" + fk_author_id + "]";
+		return "book [book_id=" + book_id + ", title=" + title + ", isbn=" + isbn ;
 	}
 
 	public int getBook_id() {
@@ -71,12 +73,12 @@ public class book {
 		this.isbn = isbn;
 	}
 
-	public author getAuthor_id() {
-		return fk_author_id;
+	public Author getAuthor() {
+		return author;
 	}
 
-	public void setAuthor_id(author fk_author_id) {
-		this.fk_author_id = fk_author_id;
+	public void setAuthor(Author author) {
+		this.author = author;
 	}
 	
 	
